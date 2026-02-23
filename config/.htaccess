@@ -1,0 +1,22 @@
+# Deny access to config directory
+<Files "database.php">
+    Require all denied
+</Files>
+
+<Files "auth.php">
+    Require all denied
+</Files>
+
+<Files "functions.php">
+    Require all denied
+</Files>
+
+# Prevent directory browsing
+Options -Indexes
+
+# PHP error handling (disable in production)
+php_flag display_errors Off
+php_flag log_errors On
+
+# Set default charset
+AddDefaultCharset UTF-8

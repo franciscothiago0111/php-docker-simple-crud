@@ -1,8 +1,8 @@
 # Use uma imagem do PHP com Apache
 FROM php:8.2-apache
 
-# Instala o módulo do MySQLi
-RUN docker-php-ext-install mysqli
+# Instala os módulos do MySQLi e PDO MySQL
+RUN docker-php-ext-install mysqli pdo pdo_mysql
 
 # Habilita o mod_rewrite, se necessário para URLs amigáveis
 RUN a2enmod rewrite

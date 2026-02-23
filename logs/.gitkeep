@@ -1,0 +1,22 @@
+# Logs Directory
+
+This directory stores application error logs.
+
+- **error.log** - PHP application errors and warnings
+- This file is created automatically when the first error occurs
+
+To view logs in the browser:
+- Visit: http://localhost:8080/view-logs.php
+
+To view logs in terminal:
+```bash
+# View PHP application errors
+cat logs/error.log
+
+# View Apache errors
+docker exec -it php_apache_container tail -f /var/log/apache2/error.log
+
+# View Apache access logs
+docker exec -it php_apache_container tail -f /var/log/apache2/access.log
+```
+
