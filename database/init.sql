@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS cars (
     category_id INT NOT NULL,
     model VARCHAR(100) NOT NULL,
     year INT NOT NULL,
-    plate_number VARCHAR(50) NOT NULL,
+    plate_number VARCHAR(50) NOT NULL UNIQUE,
     color VARCHAR(50) NOT NULL,
     mileage INT NOT NULL,
     price DECIMAL(10, 2) NOT NULL,
@@ -39,7 +39,9 @@ CREATE TABLE IF NOT EXISTS cars (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (brand_id) REFERENCES brands(id) ON DELETE RESTRICT,
-    FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE RESTRICT
+    FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE RESTRICT,
+    INDEX idx_user_id (user_id),
+    INDEX idx_plate_number (plate_number)
 );
 
 -- Insert sample brands

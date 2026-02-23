@@ -33,7 +33,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($year) || !is_numeric($year) || $year < 1900 || $year > date('Y') + 1) {
         $errors[] = 'Valid year is required.';
     }
-    if (empty($plateNumber)) $errors[] = 'Plate number is required.';
+    if (empty($plateNumber)) {
+        $errors[] = 'Plate number is required.';
+    } else {
+        // Check if plate number already exists
+        $stmt = $pdo->prepare("SELECT id FROM cars WHERE plate_number = ?");
+        $stmt->execute([$plateNumber]);
+        if ($stmt->fetch()) {
+            $errors[] = 'This plate number is already registered in the system.';
+        }
+    }
+    
     if (empty($color)) $errors[] = 'Color is required.';
     if (empty($mileage) || !is_numeric($mileage) || $mileage < 0) {
         $errors[] = 'Valid mileage is required.';
@@ -53,7 +63,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             setFlash('success', 'Car added successfully!');
             redirect('/cars/index.php');
         } catch(PDOException $e) {
-            $errors[] = 'Failed to add car. Please try again.';
+            $errors[] = 'Database error: ' . $e->getMessage();
+            error_log('Car creation error: ' . $e->getMessage());
         }
     }
 }
